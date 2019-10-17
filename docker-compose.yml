@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  db:
+    build: "./db"
+  atm:
+    build: "./atm"
+    depends_on:
+      - db
+    environment:
+      - FLASK_DEBUG = 0
+  web:
+    image: nginx:latest
+    volumes:
+      - ./web/nginx.conf:/etc/nginx/nginx.conf
+      - ./web/error.log:/etc/nginx/error_log.log
+      - ./web/cache/:/etc/nginx/cache
+      - ./web/html:/var/www/html
+    ports:
+      - "10001:10001"
+    depends_on:
+      - atm

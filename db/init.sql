@@ -1,0 +1,3 @@
+CREATE USER docker;
+CREATE DATABASE web_atm;
+GRANT ALL PRIVILEGES ON DATABASE web_atm TO docker;

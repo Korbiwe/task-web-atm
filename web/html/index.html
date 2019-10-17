@@ -1,0 +1,126 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+
+  <meta charset="utf-8">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Place favicon.ico in the root directory -->
+
+  <link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css">
+
+  <meta name="theme-color" content="#fafafa">
+</head>
+
+<body>
+  <!--[if IE]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+  <![endif]-->
+
+  <!-- Add your site or application content here -->
+  <div class="container">
+    <div class="row">
+      <div class="alert alert-primary col-sm-12 mx-auto mt-5 text-justify" id="content">
+        <h1 id="web-atm">Web ATM</h1>
+      <h5>Данный проект является тестовым заданием для DemidovDevelopment. </h5>
+      <h5>Проверить его работу можно, отправляя запросы на этот url, на эндпоинты, начинающиеся на <code>/api</code>, например <code>/api/withdraw</code></h5>
+      <a href="https://github.com/Korbiwe/task-web-atm" class="h4">Ссылка на гитхаб (кликабельно).</a>
+      <h2>Задача:</h2>
+      <p>К нам обратился один известный банк с просьбой написать софт для своих банкоматов. Поскольку на дворе 2019 год, разумеется им нужен микросервис. Итак, сервис должен реализовывать HTTP API и поддерживать 2 операции:</p>
+      <p>1) <strong>Внесение наличных</strong> - принять в банкомат несколько монет/купюр.
+      Входные параметры:</p>
+      <pre class="bg-dark"><code>
+      -  currency  (_string_): Код валюты
+      -  value  (_int_): Номинал купюры
+      -  quantity  (_int_): Количество купюр
+
+      Пример запроса:
+         
+      POST /deposit
+
+      {
+          <span class="hljs-string">"currency"</span>: <span class="hljs-string">"RUB"</span>,
+          <span class="hljs-string">"value"</span>: <span class="hljs-number">100</span>,
+          <span class="hljs-string">"quantity"</span>: <span class="hljs-number">10</span>
+      }
+         
+      Успешный ответ:
+         
+      {
+          <span class="hljs-string">"success"</span>: true
+      }
+         
+      </code></pre><p>2) <strong>Получение наличных</strong> - выдать из банкомата определенную сумму денег в определенной валюте.
+      В ответе должен возвращаться набор купюр, которыми банкомат выдаст нужную сумму, т.е. их номиналы и количество.
+      Входные параметры:</p>
+      <pre class="bg-dark"><code>
+      -  currency  (_string_): Код валюты
+      -  amount  (_int_): Сумма
+
+      Пример запроса:
+         
+      POST /withdraw
+
+      {
+          <span class="hljs-string">"currency"</span>: <span class="hljs-string">"RUB"</span>,
+          <span class="hljs-string">"amount"</span>: <span class="hljs-number">350</span>
+      }
+         
+      Успешный ответ:
+         
+      {
+          <span class="hljs-string">"success"</span>: true,
+          <span class="hljs-string">"result"</span>: [
+              {
+                  <span class="hljs-string">"value"</span>: <span class="hljs-number">100</span>,
+                  <span class="hljs-string">"quantity"</span>: <span class="hljs-number">3</span>
+              },
+              {
+                  <span class="hljs-string">"value"</span>: <span class="hljs-number">50</span>,
+                  <span class="hljs-string">"quantity"</span>: <span class="hljs-number">1</span>
+              }
+          ]
+      }
+         
+      </code></pre><h3>Технические требования</h3>
+      <ul>
+      <li>Python 3</li>
+      <li>Любые фреймворки и библиотеки на выбор</li>
+      <li>Формат данных - json</li>
+      <li>Поддерживаемые валюты - RUB, USD, EUR</li>
+      <li>Банкомат обычный, сам деньги не печатает, может выдавать только то, что в него положили. Если выдать требуемую сумму нет возможности - в ответ должна возвращаться ошибка</li>
+      <li>Формат ошибок - на усмотрение разработчика</li>
+      </ul>
+
+      <h3>Использованные технологии:</h3>
+      <ul>
+      <li>Python 3.7</li>
+      <li>Flask</li>
+      <li>SQLAlchemy</li>
+      <li>PostgreSQL
+      </ul>
+      <h3>Запуск:</h3>
+      <ul>
+      <li>Нужны: Docker и docker-compose с поддержкой compose-файлов версии 3.</li>
+      <li>Команда для запуска: <code>docker-compose up --build -d</code></li>
+      <li>При необходимости, можно посмотреть логи при помощи команды <code>docker-compose logs -f</code></li>
+      </ul>
+      <h3>Валюты:</h3>
+      <p>Взяты самые распостраненные банкноты RUR (50, 100, 200, 500, 1000, 2000, 5000), USD (1, 2, 5, 10, 50, 100) и EUR (5, 10, 50,      100, 200, 500). Монеты не были учтены. Доступность определенных номиналов задана хардкодом в файле <code>app/atm/currencies.py</code>.</p>
+
+      </div>
+    </div>
+  </div>
+  <script src="assets/js/vendor/modernizr-3.7.1.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script src="assets/js/vendor/popper.min.js"></script>
+  <script src="assets/js/vendor/bootstrap.min.js"></script>
+  <script>window.jQuery || document.write('<script src="assets/js/vendor/jquery-3.4.1.min.js"><\/script>')</script>
+  <script src="assets/js/plugins.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+
+</html>
